@@ -29,12 +29,12 @@ $status = $data['status'];
 $completion_time = $data['completion_time'];
 $resolution_notes = $data['resolution_notes'];
 
-// Validate the date format for completion_time (ISO 8601)
-if (!preg_match('/^(\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2})/', $completion_time)) {
-    http_response_code(400);
-    echo json_encode(['status' => 'error', 'message' => 'Invalid completion_time format']);
-    exit;
-}
+// // Validate the date format for completion_time (ISO 8601)
+// if (!preg_match('/^(\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2})/', $completion_time)) {
+//     http_response_code(400);
+//     echo json_encode(['status' => 'error', 'message' => 'Invalid completion_time format']);
+//     exit;
+// }
 
 // Prepare the SQL query to update the ticket status and completion details
 $query = "UPDATE requests SET `status` = ?, `completion_time` = ?, `resolution_notes` = ? WHERE `request_tracker` = ?";
