@@ -15,8 +15,7 @@ if (!$username || !$password) {
 // Include database connection
 require_once '../cloud_db_connection.php.php';
 
-// Create a connection using the getConnection function
-$conn = getConnection();
+
 
 if (!$conn) {
     http_response_code(500); // Internal Server Error

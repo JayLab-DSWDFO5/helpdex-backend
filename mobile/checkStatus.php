@@ -5,8 +5,7 @@ header("Content-Type: application/json");
 require_once 'databaseOnMobile.php';
 
 
-// Create a connection using the getConnection function
-$conn = getConnection();
+
 
 if (!$conn) {
     http_response_code(500);
@@ -55,5 +54,3 @@ if (mysqli_stmt_execute($stmt)) {
 // Close the statement and connection
 mysqli_stmt_close($stmt);
 mysqli_close($conn);
-
-?>
