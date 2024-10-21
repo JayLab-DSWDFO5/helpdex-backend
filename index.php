@@ -1,3 +1,3 @@
 <?php
 
-echo "<h1>Why!</h1>";
+echo $_SERVER['REQUEST_URI'];

@@ -1,0 +1,4 @@
+runtime: php81 # or php80 for PHP 8.0
+handlers:
+  - url: /.*
+    script: auto
