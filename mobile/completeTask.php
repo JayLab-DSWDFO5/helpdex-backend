@@ -4,14 +4,10 @@ header('Content-Type: application/json');
 // Include database connection
 require_once 'databaseOnMobile.php';
 
-
 if (!$conn) {
     http_response_code(500);
     echo json_encode(['status' => 'error', 'message' => 'Database connection failed', 'error' => mysqli_connect_error()]);
     exit;
-} else {
-    http_response_code(200);
-    echo json_encode(['status' => 'status', 'message' => 'Database connection ok', 'error' => mysqli_connect_error()]);
 }
 
 // Get the POST data
@@ -29,12 +25,12 @@ $status = $data['status'];
 $completion_time = $data['completion_time'];
 $resolution_notes = $data['resolution_notes'];
 
-// // Validate the date format for completion_time (ISO 8601)
-// if (!preg_match('/^(\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2})/', $completion_time)) {
-//     http_response_code(400);
-//     echo json_encode(['status' => 'error', 'message' => 'Invalid completion_time format']);
-//     exit;
-// }
+// Validate the date format for completion_time (Y-m-d H:i:s)
+if (!preg_match('/^\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}$/', $completion_time)) {
+    http_response_code(400);
+    echo json_encode(['status' => 'error', 'message' => 'Invalid completion_time format']);
+    exit;
+}
 
 // Prepare the SQL query to update the ticket status and completion details
 $query = "UPDATE requests SET `status` = ?, `completion_time` = ?, `resolution_notes` = ? WHERE `request_tracker` = ?";
