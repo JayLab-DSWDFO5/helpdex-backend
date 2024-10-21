@@ -25,7 +25,7 @@ if (!$techId) {
 }
 
 // Include database connection
-require_once 'db_connection.php';
+require_once 'mobile/databaseOnMobile.php';
 
 // Fetch technician details
 $technicianDetails = fetchTechnicianDetails($techId, $conn);
@@ -36,14 +36,16 @@ if ($technicianDetails) {
     echo json_encode(['error' => 'Technician not found']);
 }
 
-function verifyToken($token) {
+function verifyToken($token)
+{
     // Implement your token verification logic here
     // Return true if the token is valid, false otherwise
     // For now, we'll just return true as a placeholder
     return true;
 }
 
-function fetchTechnicianDetails($techId, $conn) {
+function fetchTechnicianDetails($techId, $conn)
+{
     $query = "SELECT * FROM technician WHERE tech_id = ?";
     $stmt = mysqli_prepare($conn, $query);
     mysqli_stmt_bind_param($stmt, 'i', $techId);
@@ -65,4 +67,3 @@ function fetchTechnicianDetails($techId, $conn) {
 
     return null;
 }
-?>
