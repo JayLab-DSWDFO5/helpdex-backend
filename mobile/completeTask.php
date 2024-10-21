@@ -25,7 +25,7 @@ $status = $data['status'];
 $completion_time = $data['completion_time'];
 $resolution_notes = $data['resolution_notes'];
 
-// Prepare the SQL query to update the ticket
+// Prepare the SQL query to update the ticket status and completion details
 $query = "UPDATE requests SET status = ?, completion_time = ?, resolution_notes = ? WHERE request_tracker = ?";
 $stmt = mysqli_prepare($conn, $query);
 
@@ -39,34 +39,18 @@ if ($stmt) {
     } else {
         // If execution fails, log the error and provide an error message
         http_response_code(500);
-        echo json_encode([
-            'status' => 'error',
-            'message' => 'Failed to complete task',
-            'error' => mysqli_error($conn)
-        ]);
-
-        // Log the error with detailed SQL information
-        error_log('SQL Execution Error: ' . mysqli_error($conn) .
-            ' | Query: ' . $query .
-            ' | Parameters: ' . json_encode([$status, $completion_time, $resolution_notes, $request_tracker]));
+        echo json_encode(['status' => 'error', 'message' => 'Failed to complete task', 'error' => mysqli_error($conn)]);
+        error_log('SQL Execution Error: ' . mysqli_error($conn) . ' | Query: ' . $query . ' | Parameters: ' . json_encode([$status, $completion_time, $resolution_notes, $request_tracker]));
     }
 
     // Close the statement
     mysqli_stmt_close($stmt);
 } else {
-    // If preparing the statement fails, log and show the error
+    // If statement preparation fails, provide detailed error info
     http_response_code(500);
-    echo json_encode([
-        'status' => 'error',
-        'message' => 'Failed to prepare SQL statement',
-        'error' => mysqli_error($conn)
-    ]);
-
-    // Log the error for debugging
-    error_log('SQL Preparation Error: ' . mysqli_error($conn) .
-        ' | Query: ' . $query .
-        ' | Parameters: ' . json_encode([$status, $completion_time, $resolution_notes, $request_tracker]));
+    echo json_encode(['status' => 'error', 'message' => 'Failed to prepare SQL statement', 'error' => mysqli_error($conn)]);
+    error_log('SQL Preparation Error: ' . mysqli_error($conn) . ' | Query: ' . $query . ' | Parameters: ' . json_encode([$status, $completion_time, $resolution_notes, $request_tracker]));
 }
 
-// Close the connection
+// Close the database connection
 mysqli_close($conn);
