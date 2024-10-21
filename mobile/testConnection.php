@@ -6,7 +6,7 @@ require_once 'databaseOnMobile.php';
 header('Content-Type: application/json');
 
 // Create a connection using the getConnection function
-$conn = getConnection(); // Directly call the function instead of using a Database class
+
 
 // Test the connection
 if ($conn) {
@@ -14,4 +14,3 @@ if ($conn) {
 } else {
     echo json_encode(["status" => "error", "message" => "Database connection failed."]);
 }
-?>
