@@ -4,7 +4,6 @@ header('Content-Type: application/json');
 // Include database connection
 require_once 'databaseOnMobile.php';
 
-echo "hhey";
 
 if (!$conn) {
     http_response_code(500);
