@@ -5,7 +5,7 @@ header('Access-Control-Allow-Origin: *'); // Adjust for production
 header('Access-Control-Allow-Methods: GET, OPTIONS');
 header('Access-Control-Allow-Headers: Content-Type');
 
-require_once 'db_connection.php';
+require_once 'mobile/databaseOnMobile.php';
 
 try {
     // Handle preflight OPTIONS request
@@ -37,13 +37,12 @@ try {
     $query = "SELECT tech_id, tech_name FROM technician WHERE group_desc = ?";
     $stmt = mysqli_prepare($conn, $query);
     mysqli_stmt_bind_param($stmt, 's', $userGroupDesc);
-    
+
     mysqli_stmt_execute($stmt);
     $result = mysqli_stmt_get_result($stmt);
     $technicians = mysqli_fetch_all($result, MYSQLI_ASSOC);
 
     echo json_encode(['status' => 'success', 'data' => $technicians]);
-
 } catch (Exception $e) {
     http_response_code(500);
     echo json_encode(['status' => 'error', 'message' => 'Server error: ' . $e->getMessage()]);
