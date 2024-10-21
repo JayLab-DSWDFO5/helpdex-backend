@@ -2,11 +2,11 @@
 // Cloud SQL connection details
 $host = '35.201.222.190';       // Replace with your Cloud SQL public IP address
 $db_name = 'dswd-helpdex';      // Your database name
-$username = 'dswdfo5-backend';  // Your database username
-$password = 'DSWDfo5';           // Your database password
+$usernamedb = 'dswdfo5-backend';  // Your database username
+$passworddb = 'DSWDfo5';           // Your database password
 
 // Directly establish the connection using procedural MySQLi
-$conn = mysqli_connect($host, $username, $password, $db_name);
+$conn = mysqli_connect($host, $usernamedb, $passworddb, $db_name);
 
 // Check connection
 if (!$conn) {
