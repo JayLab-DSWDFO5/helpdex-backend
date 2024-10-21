@@ -5,7 +5,7 @@ header('Content-Type: application/json');
 require_once 'databaseOnMobile.php';
 
 // Create a connection using the getConnection function
-$conn = getConnection();
+
 
 if (!$conn) {
     http_response_code(500);
@@ -51,4 +51,3 @@ echo json_encode(['status' => 'success', 'tickets' => $completedTickets]);
 // Close the statement and connection
 mysqli_stmt_close($stmt);
 mysqli_close($conn);
-?>
