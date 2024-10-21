@@ -1,6 +1,10 @@
 <?php
 header('Content-Type: application/json');
 
+// Include database connection
+require_once 'databaseOnMobile.php';
+
+
 // Use the POST method for RESTful API
 $data = json_decode(file_get_contents('php://input'), true);
 $username = $data['username'] ?? null;
@@ -11,10 +15,6 @@ if (!$username || !$password) {
     echo json_encode(['status' => 'error', 'message' => 'Username and password are required']);
     exit;
 }
-
-// Include database connection
-require_once 'databaseOnMobile.php';
-
 
 
 if (!$conn) {
