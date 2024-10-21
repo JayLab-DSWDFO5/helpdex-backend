@@ -38,7 +38,7 @@ if (mysqli_stmt_execute($stmt)) {
     echo json_encode(['status' => 'success', 'message' => 'Task completed successfully']);
 } else {
     http_response_code(500);
-    echo json_encode(['status' => 'error', 'message' => 'Failed to complete task']);
+    echo json_encode(['status' => 'error', 'message' => 'Failed to complete taskss']);
 }
 
 // Close the statement and connection
