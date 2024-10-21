@@ -14,15 +14,15 @@ if (!$conn) {
     echo json_encode(['status' => 'status', 'message' => 'Database connection ok', 'error' => mysqli_connect_error()]);
 }
 
-// // Get the POST data
-// $data = json_decode(file_get_contents('php://input'), true);
+// Get the POST data
+$data = json_decode(file_get_contents('php://input'), true);
 
-// // Check if required data is present
-// if (!isset($data['request_tracker']) || !isset($data['status']) || !isset($data['completion_time']) || !isset($data['resolution_notes'])) {
-//     http_response_code(400);
-//     echo json_encode(['status' => 'error', 'message' => 'Missing required parameters']);
-//     exit;
-// }
+// Check if required data is present
+if (!isset($data['request_tracker']) || !isset($data['status']) || !isset($data['completion_time']) || !isset($data['resolution_notes'])) {
+    http_response_code(400);
+    echo json_encode(['status' => 'error', 'message' => 'Missing required parameters']);
+    exit;
+}
 
 // $request_tracker = $data['request_tracker'];
 // $status = $data['status'];
