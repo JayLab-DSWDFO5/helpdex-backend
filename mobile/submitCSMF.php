@@ -126,7 +126,7 @@ try {
 
         if (mysqli_stmt_execute($stmt)) {
             // After successful survey submission, update the requests table
-            $updateQuery = "UPDATE requests SET client_accomplished_csmf = 1 WHERE id = ?";
+            $updateQuery = "UPDATE requests SET client_accomplished_csmf = 1 WHERE request_id = ?";
             $updateStmt = mysqli_prepare($conn, $updateQuery);
 
             if ($updateStmt) {
