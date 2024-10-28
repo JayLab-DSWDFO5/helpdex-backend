@@ -46,6 +46,38 @@ if (json_last_error() !== JSON_ERROR_NONE) {
 }
 
 try {
+    // Extract request ID from request_tracker
+    $requestIdParts = explode('-', $data->request_tracker);
+    $requestId = intval(end($requestIdParts));
+
+    // Store all values in variables
+    $techId = $data->tech_id;
+    $email = $data->client_email ?? '';
+    $firstName = $data->client_first_name ?? '';
+    $middleName = $data->client_middle_name ?? '';
+    $lastName = $data->client_last_name ?? '';
+    $gender = $data->gender;
+    $ageGroup = $data->age;
+    $sector = $data->sector;
+    $clientType = $data->client_type;
+    $requestTracker = $data->request_tracker;
+    $requestName = $data->request_name ?? '';
+    $dateRequested = date('Y-m-d', strtotime($data->date_requested));
+    $dateResolved = date('Y-m-d', strtotime($data->date_resolved));
+    $technicianName = $data->technician;
+    $charterAwareness = $data->citizen_charter;
+    $charterVisibility = $data->citizen_charter_visible;
+    $charterHelpfulness = $data->citizen_charter_helpful;
+    $promptnessRating = $data->promptness_rating;
+    $reliabilityRating = $data->reliability_rating;
+    $accessRating = $data->access_rating;
+    $courtesyRating = $data->courtesy_rating;
+    $integrityRating = $data->integrity_rating;
+    $assuranceRating = $data->assurance_rating;
+    $outcomeRating = $data->outcome_rating;
+    $overallRating = $data->overall_rating;
+    $remarks = $data->remarks ?? '';
+
     $query = "INSERT INTO customer_satisfaction_surveys (
         request_id, tech_id, email, first_name, middle_name, last_name,
         gender, age_group, sector, client_type, request_tracker,
@@ -62,33 +94,33 @@ try {
         mysqli_stmt_bind_param(
             $stmt,
             "iissssssssssssssssiiiiiiiis",
-            $data->request_id,
-            $data->tech_id,
-            $data->email,
-            $data->first_name,
-            $data->middle_name ?? '',
-            $data->last_name,
-            $data->gender,
-            $data->age_group,
-            $data->sector,
-            $data->client_type,
-            $data->request_tracker,
-            $data->request_name,
-            $data->date_requested,
-            $data->date_resolved,
-            $data->technician_name,
-            $data->citizen_charter_awareness,
-            $data->citizen_charter_visibility,
-            $data->citizen_charter_helpfulness,
-            $data->promptness_rating,
-            $data->reliability_rating,
-            $data->access_rating,
-            $data->courtesy_rating,
-            $data->integrity_rating,
-            $data->assurance_rating,
-            $data->outcome_rating,
-            $data->overall_rating,
-            $data->remarks ?? ''
+            $requestId,
+            $techId,
+            $email,
+            $firstName,
+            $middleName,
+            $lastName,
+            $gender,
+            $ageGroup,
+            $sector,
+            $clientType,
+            $requestTracker,
+            $requestName,
+            $dateRequested,
+            $dateResolved,
+            $technicianName,
+            $charterAwareness,
+            $charterVisibility,
+            $charterHelpfulness,
+            $promptnessRating,
+            $reliabilityRating,
+            $accessRating,
+            $courtesyRating,
+            $integrityRating,
+            $assuranceRating,
+            $outcomeRating,
+            $overallRating,
+            $remarks
         );
 
         if (mysqli_stmt_execute($stmt)) {
