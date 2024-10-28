@@ -15,7 +15,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
     exit();
 }
 
-require_once '../db_connect.php';
+require_once '../databaseOnMobile.php';
 
 // Check if it's a POST request
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
