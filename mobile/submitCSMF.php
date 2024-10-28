@@ -1,5 +1,5 @@
 <?php
-// Prevent redirects
+// Prevent redirects and show errors
 ini_set('display_errors', 1);
 error_reporting(E_ALL);
 
@@ -50,7 +50,7 @@ try {
     $requestIdParts = explode('-', $data->request_tracker);
     $requestId = intval(end($requestIdParts));
 
-    // Store all values in variables
+    // Store all values in variables first
     $techId = $data->tech_id;
     $email = $data->client_email ?? '';
     $firstName = $data->client_first_name ?? '';
@@ -78,6 +78,7 @@ try {
     $overallRating = $data->overall_rating;
     $remarks = $data->remarks ?? '';
 
+    // Insert survey data
     $query = "INSERT INTO customer_satisfaction_surveys (
         request_id, tech_id, email, first_name, middle_name, last_name,
         gender, age_group, sector, client_type, request_tracker,
@@ -124,12 +125,28 @@ try {
         );
 
         if (mysqli_stmt_execute($stmt)) {
-            http_response_code(200);
-            echo json_encode([
-                'success' => true,
-                'message' => 'Survey submitted successfully',
-                'id' => mysqli_insert_id($conn)
-            ]);
+            // After successful survey submission, update the requests table
+            $updateQuery = "UPDATE requests SET client_accomplished_csmf = 1 WHERE id = ?";
+            $updateStmt = mysqli_prepare($conn, $updateQuery);
+
+            if ($updateStmt) {
+                mysqli_stmt_bind_param($updateStmt, "i", $requestId);
+
+                if (mysqli_stmt_execute($updateStmt)) {
+                    http_response_code(200);
+                    echo json_encode([
+                        'success' => true,
+                        'message' => 'Survey submitted and request updated successfully',
+                        'id' => mysqli_insert_id($conn)
+                    ]);
+                } else {
+                    throw new Exception("Error updating request: " . mysqli_stmt_error($updateStmt));
+                }
+
+                mysqli_stmt_close($updateStmt);
+            } else {
+                throw new Exception("Error preparing update statement: " . mysqli_error($conn));
+            }
         } else {
             throw new Exception("Error executing statement: " . mysqli_stmt_error($stmt));
         }
@@ -139,7 +156,7 @@ try {
         throw new Exception("Error preparing statement: " . mysqli_error($conn));
     }
 } catch (Exception $e) {
-    error_log("Error in submit.php: " . $e->getMessage());
+    error_log("Error in submitCSMF.php: " . $e->getMessage());
     http_response_code(500);
     echo json_encode([
         'success' => false,
