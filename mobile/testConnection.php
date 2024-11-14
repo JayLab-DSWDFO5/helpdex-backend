@@ -12,7 +12,7 @@ $conn = mysqli_connect($host, $username, $password, $db_name);  // Use your conn
 if ($conn) {
     echo json_encode(["status" => "success", "message" => "Yey! Mobile database connection established successfully."]);
 } else {
-    echo json_encode(["status" => "error", "message" => "Database connection failed: " . mysqli_connect_error()]);
+    echo json_encode(["status" => "error", "message" => "....Database connection failed: " . mysqli_connect_error()]);
 }
 
 // Close the connection
